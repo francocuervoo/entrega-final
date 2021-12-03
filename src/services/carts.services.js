@@ -1,26 +1,45 @@
 import { clog } from "../server.js";
 import Services from "./crud.services.js";
 
-// Métodos genéricos y los métidos propipios de los productos
+// Métodos genéricos y los métodos propipios de los productos
 class CartServices extends Services {
   constructor(model) {
     super(model);
   }
 
   async getCarts() {
-    await this.getAll();
+    try {
+      const carts = await this.getAll();
+      return carts;
+    } catch (error) {
+      {
+        clog(error);
+      }
+    }
   }
 
   async getCartById(id) {
-    await this.getById(id);
+    try {
+      const cart = await this.getById(id);
+      return cart;
+    } catch (error) {
+      {
+        clog(error);
+      }
+    }
   }
 
-  async createCart(cart) {
-    await this.createDocument(cart);
-  }
+  createCart = async (cart) => await this.createDocument(cart);
 
   async deleteCartById(id) {
-    await this.deleteById(id);
+    try {
+      const deleteCart = await this.deleteById(id);
+      return deleteCart;
+    } catch (error) {
+      {
+        clog(error);
+      }
+    }
   }
 
   async deleteProduct(cartId, productId) {
@@ -29,7 +48,7 @@ class CartServices extends Services {
 
       //Métodos de Vnailla JS para borrar el producto del carrito
       const index = cart.products.findIndex(
-        (product) => (product._id == productId)
+        (product) => product._id == productId
       );
       cart.products.splice(index, 1);
 

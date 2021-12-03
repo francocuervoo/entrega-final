@@ -1,28 +1,25 @@
 // Método del after para no repetir console.log
 export const clog = console.log.bind(console);
 
-import mongoose from "mongoose";
 import app from "./express.app.js";
-import dotenv from "dotenv";
-dotenv.config();
+import "./db.js";
+import session from "express-session";
 
-const { PORT, MONGODB_URI } = process.env;
+app.use(
+  session({
+    secret: process.env.SECRET,
+    cookie: {
+      maxAge: Number(process.env.EXPIRE),
+    },
+    rolling: true,
+    resave: true,
+    saveUninitialized: false,
+  })
+);
 
 // Express Server
-app.listen(PORT, () => clog(`Servicio activo en el puerto http://localhost:${PORT}`));
-
-//  Conecto a MongoDB
-mongoose.connect(
-  MONGODB_URI,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  (error) => {
-    if (!error) {
-      clog("Conectado a MongoDB");
-    } else {
-      clog(error);
-    }
-  }
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT, () =>
+  console.log(`Server started on port http://localhost:${PORT}`)
 );
+server.on("error", (err) => console.log(err));
