@@ -33,6 +33,7 @@ passport.use(
   "signup",
   new Strategy(
     {
+      usernameField: "email",
       passReqToCallback: true,
     },
     (req, email, password, done) => {
@@ -43,7 +44,7 @@ passport.use(
           return done(null, false);
         }
         const newUser = {
-          email,
+          email: req.body.email,
           password: createHash(password),
           firstName: req.body.firstName,
           lastName: req.body.lastName,

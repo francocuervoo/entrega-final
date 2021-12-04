@@ -4,6 +4,7 @@ export const clog = console.log.bind(console);
 import app from "./express.app.js";
 import "./db.js";
 import session from "express-session";
+import passport from "./utils/passport.util.js";
 
 app.use(
   session({
@@ -16,6 +17,9 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Express Server
 const PORT = process.env.PORT || 3000;
