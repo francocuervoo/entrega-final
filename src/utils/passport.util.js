@@ -9,20 +9,26 @@ function isValidPassword(user, password) {
 
 passport.use(
   "login",
-  new Strategy((email, password, done) => {
-    UserModel.findOne({ email }, (err, user) => {
-      if (err) return done(err);
-      if (!user) {
-        console.log("Usuario no encontrado!");
-        return done(null, false);
-      }
-      if (!isValidPassword(user, password)) {
-        console.log("Invalid password");
-        return done(null, false);
-      }
-      return done(null, user);
-    });
-  })
+  new Strategy(
+    {
+      usernameField: "email",
+      passReqToCallback: true,
+    },
+    (email, password, done) => {
+      UserModel.findOne({ email }, (err, user) => {
+        if (err) return done(err);
+        if (!user) {
+          console.log("Usuario no encontrado!");
+          return done(null, false);
+        }
+        if (!isValidPassword(user, password)) {
+          console.log("Invalid password");
+          return done(null, false);
+        }
+        return done(null, user);
+      });
+    }
+  )
 );
 
 function createHash(password) {

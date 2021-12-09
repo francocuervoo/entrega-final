@@ -20,4 +20,6 @@ router.get('/protected', AuthMiddleware.checkAuthentication, (req,res) => {
   res.send('<h1>Autenticado!</h1>')
 })
 
+//router.post('/uploadFile',AuthController.uploadFile)
+
 export default router
