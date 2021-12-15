@@ -10,6 +10,7 @@ cartsRouter.get("/products/:cartId", cartsControllers.getProductsInCart);
 cartsRouter.post("/", cartsControllers.newCart);
 cartsRouter.delete("/:cartId", cartsControllers.deleteCartById);
 cartsRouter.post("/products/:cartId/:productId", cartsControllers.addProductToCart);
+cartsRouter.post("/order/:cartId", cartsControllers.confirmOrder);
 cartsRouter.delete("/products/:cartId/:productId", cartsControllers.deleteProductFromCart);
 
 export default cartsRouter;

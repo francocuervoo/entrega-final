@@ -16,11 +16,9 @@
 
   <body>
     <div class="container text-center my-3">
-      <table>
-        <tbody id="usuario"></tbody>
-      </table>
       <div class="jumbotron" style="background-color: green; color: white">
         <h1>CARRITO</h1>
+        <div id="usuario"></div>
         <h2>Estos son tus productos</h2>
       </div>
       <table class="table">
@@ -29,11 +27,12 @@
             <th>Nombre:</th>
             <th>Precio:</th>
             <th>Descripción:</th>
-            <th>thumbnailn:</th>
+            <th>Image:</th>
           </tr>
         </thead>
         <tbody id="productsTable"></tbody>
       </table>
+      <button id="confirmOrder" class="bta">COMPRAR</button>
     </div>
   </body>
 </html>
@@ -52,11 +51,8 @@
 ;
   const displayUser = (nombre, avatar, cartId) => {
     fetchProducts(`/api/carts/products/${cartId}`);
-    return
-    `
-      <h5>Usuario ${nombre}</h5>
-      <img style="width: 5rem" src="${avatar} />
-      `;
+    buyButton(cartId)
+    return `<h5>Usuario ${nombre}</h5> <img style="width: 5rem;" src="${avatar}" /> `;
   };
   const tableRows = (products) => {
     return products.map(
@@ -77,12 +73,26 @@
     .then(html => $("#productsTable").innerHTML = html)
     .catch(error => console.log(error));
   }
-  /*fetch('/login')
-    .then( res => res.json() ) 
-    .then(res => console.log(res))
-    .then( data => displayUser(data.username, data.imageUrl, data.carts[data.carts.length-1]) )
-    .then( html =>  $('#userData').innerHTML = html )
-    .catch( error => console.log(error) )*/
-;
+
+  const confirmOrder = async (cartId) => {
+    const settings = {
+      method: 'POST',
+      headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      }
+    }
+    try {
+      await fetch(`/api/carts/order/${cartId}`, settings);
+      $('#confirmOrder').innerHTML = 'Gracias por su compra!';
+    } catch (error) { console.log (error) }
+};
+
+  const buyButton = cartId => {
+    $('#confirmOrder').addEventListener('click', function handler() { 
+      confirmOrder(cartId);
+      $('#confirmOrder').removeEventListener('click', handler);
+    })
+  }
 
 </script>
