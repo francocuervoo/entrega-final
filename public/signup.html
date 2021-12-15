@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sign Up</title>
+  </head>
+
+  <body>
+    <form
+      action="http://localhost:8081/signup"
+      enctype="multipart/form-data"
+      method="post"
+    >
+      <br />
+      <div>
+        <label form="email">E-mail:</label>
+        <input type="email" name="email" id="email" placeholder="E-mail" />
+      </div>
+      <br />
+      <div>
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+        />
+      </div>
+      <br />
+      <br />
+      <div>
+        <label for="firstName">Nombre:</label>
+        <input type="text" name="firstName" id="firstName" placeholder="Juan" />
+      </div>
+      <br />
+      <div>
+        <label for="lastName">Apellido:</label>
+        <input type="text" name="lastName" id="lastName" placeholder="Perez" />
+      </div>
+      <br />
+      <div>
+        <label for="phone">Teléfono:</label>
+        <input
+          type="number"
+          name="phone"
+          id="phone"
+          placeholder="11-1234-4321"
+        />
+      </div>
+      <br />
+      <div>
+        <label for="address">Dirección:</label>
+        <input
+          type="text"
+          name="address"
+          id="address"
+          placeholder="Calle 1200, CABA"
+        />
+      </div>
+      <br />
+      <div>
+        <label for="age">Edad:</label>
+        <input type="number" name="age" id="age" placeholder="30" />
+      </div>
+      <br />
+      <div>
+        <label for="file-upload">
+          Seleccionar Imagen de Perfil:
+          <br />
+        </label>
+        <br />
+        <input id="file-upload" type="file" name="file" />
+      </div>
+      <br />
+      <button type="submit">Sign Up</button>
+    </form>
+  </body>
+</html>

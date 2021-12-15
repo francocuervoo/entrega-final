@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cargar Imagen</title>
+  
+</head>
+
+<body>
+    
+  <form action="http://localhost:8081/api/upload" enctype="multipart/form-data" method="post">
+
+    <div>
+
+      <label for="file-upload">
+        Seleccionar Imagen de Perfil:
+      <br>
+      </label>
+      <br>
+      <input id="file-upload" type="file" name="file" />
+
+    </div>
+
+    <br>
+
+    <button type="submit">Cargar Imagen</button>
+    
+  </form>
+
+</body>
+
+</html>

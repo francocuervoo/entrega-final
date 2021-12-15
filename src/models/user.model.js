@@ -30,6 +30,15 @@ const Schema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    imageUrl: {
+      type: String,
+    },
+    carts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cart",
+      },
+    ],
   },
   { timestamps: true }
 );

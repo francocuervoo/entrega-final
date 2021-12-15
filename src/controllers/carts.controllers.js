@@ -6,6 +6,7 @@ import ProductServices from "../services/products.services.js";
 
 // Importo los modelos
 import { cartModel } from "../models/cart.models.js";
+import { UserModel } from "../models/user.model.js";
 import { productModel } from "../models/product.model.js";
 
 // Instancio las clases pasándole los modelos de Mongoose como parámetros
@@ -13,10 +14,16 @@ const cartServices = new CartServices(cartModel);
 const productServices = new ProductServices(productModel);
 
 export const newCart = async (req, res) => {
-  const {body} = req;
+  const { body } = req;
   try {
     const cart = await cartServices.createCart(body);
-    res.status(200).send(`Carrito creado con ID: ${cart._id}`);
+    if (req.user) {
+      const id = req.user._id;
+      const user = await UserModel.findById(id);
+      user.carts.push(cart._id);
+      await user.save();
+    }
+    res.status(200).send(cart._id);
   } catch (error) {
     clog(error);
   }
@@ -78,11 +85,7 @@ export const getProductsInCart = async (req, res) => {
   try {
     const productosDelCarrito = await cartServices.getCartById(cartId);
     if (productosDelCarrito) {
-      res
-        .status(200)
-        .send(
-          `Estos son los productos del carrito: ${productosDelCarrito.products}`
-        );
+      res.status(200).send(productosDelCarrito.products);
     } else {
       res.send("No se encontró ningún carrito con ese ID");
     }
@@ -104,4 +107,3 @@ export const deleteProductFromCart = async (req, res) => {
     clog(error);
   }
 };
-

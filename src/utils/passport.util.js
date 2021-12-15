@@ -12,7 +12,6 @@ passport.use(
   new Strategy(
     {
       usernameField: "email",
-      passReqToCallback: true,
     },
     (email, password, done) => {
       UserModel.findOne({ email }, (err, user) => {
