@@ -5,7 +5,7 @@ import productsRouter from "./products.router.js";
 
 const apiRouter = Router();
 
-apiRouter.use("/carts", cartsRouter);
-apiRouter.use("/products", productsRouter);
+apiRouter.use("/carts/auth", cartsRouter);
+apiRouter.use("/products/auth", productsRouter);
 
 export default apiRouter;

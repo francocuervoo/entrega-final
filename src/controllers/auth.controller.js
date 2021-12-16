@@ -13,9 +13,14 @@ export function getLogin(req, res) {
 }
 
 export function postLogin(req, res) {
-  const user = req.user;
-  console.log(user);
-  res.send(user);
+  //const user = req.user;
+  ///console.log(user);
+  //res.send(user);
+  if(req.user){
+    res.redirect("/cart")
+  } else {
+    res.redirect("/login-error")
+  }
 }
 
 export function getFailLogin(req, res) {
@@ -28,26 +33,32 @@ export function getSignup(req, res) {
 }
 
 export async function postSignup(req, res) {
-  const realPath = req.file.path.replace("public/", "");
-  const id = req.user._id;
-  const user = await UserModel.findById(id);
-  user.imageUrl = realPath;
-  await user.save();
-  console.log(user);
-
-  // Envia un mail al usuario notificandole el registro:
-  const receptor = req.user.email;
-  const tema = "Nuevo usuario registrado";
-  const contenido = `
-    <h3> Hola ${req.user.firstName}! </h3>
-    <br>
-    <p> Ya estás registrado en la app de E-Commerce. </p>
-  `;
-  sendGmail(receptor, tema, contenido)
-    .then((response) => console.log(response.envelope))
-    .catch((error) => console.log(error));
-  // Devolver una respuesta al front:
-  res.send(user);
+  try{
+    if(req.file){
+      const realPath = req.file.path.replace("public/", "");
+      const id = req.user._id;
+      const user = await UserModel.findById(id);
+      user.imageUrl = realPath;
+      await user.save();
+      console.log(user);
+    }
+      // Envia un mail al usuario notificandole el registro:
+      const receptor = req.user.email;
+      const tema = "Nuevo usuario registrado";
+      const contenido = `
+        <h3> Hola ${req.user.firstName}! </h3>
+        <br>
+        <p> Ya estás registrado en la app de E-Commerce. </p>
+      `;
+      sendGmail(receptor, tema, contenido)
+        .then((response) => console.log(response.envelope))
+        .catch((error) => console.log(error));
+      // Devolver una respuesta al front:
+      res.redirect("/cart");
+  } catch(error){
+    console.log(error);
+    res.redirect("/signup-error")
+  }
 }
 
 export function getFailSignup(req, res) {

@@ -39,7 +39,7 @@
 
 <script>
   const $ = document.querySelector.bind(document);
-  fetch('/login')
+  fetch('api/auth/login')
   .then( res => res.json() ) 
   .then( data => displayUser(data.firstName, data.imageUrl, data.carts[data.carts.length-1]) )
   .then( html =>  $('#usuario').innerHTML = html )

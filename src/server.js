@@ -22,7 +22,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/api", apiRouter).use("/", userRouter);
+app.use("/api", apiRouter).use("/api", userRouter);
 
 // Express Server
 const PORT = process.env.PORT || 3000;
