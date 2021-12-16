@@ -50,7 +50,7 @@
   })
 ;
   const displayUser = (nombre, avatar, cartId) => {
-    fetchProducts(`/api/carts/products/${cartId}`);
+    fetchProducts(cartId);
     buyButton(cartId)
     return `<h5>Usuario ${nombre}</h5> <img style="width: 5rem;" src="${avatar}" /> `;
   };
@@ -67,7 +67,7 @@
       `
     );  //.join(" ");
   };
-  const fetchProducts = (cartId) => { fetch(`${cartId}`)
+  const fetchProducts = (cartId) => { fetch(`/api/carts/products/${cartId}`)
     .then(res => res.json())
     .then(products => tableRows(products))
     .then(html => $("#productsTable").innerHTML = html)

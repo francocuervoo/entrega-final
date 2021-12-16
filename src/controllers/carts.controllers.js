@@ -142,3 +142,10 @@ export const confirmOrder = async (req, res) => {
   }
 };
 
+export const cartView = (req, res) => {
+  res.sendFile("cart.html", { root: "./public" });
+};
+
+export const loginView = (req, res) => {
+  res.sendFile("login.html", { root: "./public" });
+};
