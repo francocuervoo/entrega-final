@@ -1,0 +1,12 @@
+export const cartView = (req, res) => {
+    res.sendFile("cart.html", { root: "./public" });
+  };
+  
+  export const loginView = (req, res) => {
+    res.sendFile("login.html", { root: "./public" });
+  };
+ 
+  export const signupView = (req, res) => {
+    res.sendFile("signup.html", { root: "./public" });
+  };
+ 

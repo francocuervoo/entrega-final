@@ -141,11 +141,3 @@ export const confirmOrder = async (req, res) => {
     clog(error);
   }
 };
-
-export const cartView = (req, res) => {
-  res.sendFile("cart.html", { root: "./public" });
-};
-
-export const loginView = (req, res) => {
-  res.sendFile("login.html", { root: "./public" });
-};
