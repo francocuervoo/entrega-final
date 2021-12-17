@@ -10,3 +10,11 @@ export const cartView = (req, res) => {
     res.sendFile("signup.html", { root: "./public" });
   };
  
+  export const failLoginView = (req, res) => {
+    res.sendFile("fail-login.html", { root: "./public" });
+  };
+ 
+  export const failSignupView = (req, res) => {
+    res.sendFile("fail-signup.html", { root: "./public" });
+  };
+ 
