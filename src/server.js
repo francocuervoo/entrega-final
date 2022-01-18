@@ -8,12 +8,13 @@ import passport from "./utils/passport.util.js";
 import apiRouter from "./routes/api.router.js";
 import userRouter from "./routes/auth.router.js";
 import viewsRouter from "./routes/views.router.js";
+import config from "../src/config/config.js"
 
 app.use(
   session({
-    secret: process.env.SECRET,
+    secret: config.secret,
     cookie: {
-      maxAge: Number(process.env.EXPIRE),
+      maxAge: Number(config.expire),
     },
     rolling: true,
     resave: true,
@@ -27,7 +28,7 @@ app.use("/api", apiRouter).use("/api", userRouter);
 app.use("/", viewsRouter);
 
 // Express Server
-const PORT = process.env.PORT || 3000;
+const PORT = config.port || 3000;
 const server = app.listen(PORT, () =>
   console.log(`Server started on port http://localhost:${PORT}`)
 );

@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
+import config from "../config/config.js"
 
 import { createTransport } from "nodemailer";
 
@@ -7,8 +6,8 @@ const transporterGmail = createTransport({
   service: "gmail",
   port: 587,
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
+    user: config.mailUser,
+    pass: config.mailPass,
   },
 });
 

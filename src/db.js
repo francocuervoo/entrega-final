@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import config from "../src/config/config.js"
 
-dotenv.config();
-
-const { PORT, MONGO_URI } = process.env;
-
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(config.mongoSessions, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

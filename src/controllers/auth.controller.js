@@ -13,9 +13,6 @@ export function getLogin(req, res) {
 }
 
 export function postLogin(req, res) {
-  //const user = req.user;
-  ///console.log(user);
-  //res.send(user);
   if(req.user){
     res.redirect("/cart")
   } else {

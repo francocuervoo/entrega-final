@@ -8,6 +8,7 @@ import ProductServices from "../services/products.services.js";
 import { cartModel } from "../models/cart.models.js";
 import { UserModel } from "../models/user.model.js";
 import { productModel } from "../models/product.model.js";
+import { confirmOrder } from "../services/mail.services.js";
 
 // Instancio las clases pasándole los modelos de Mongoose como parámetros
 const cartServices = new CartServices(cartModel);
