@@ -8,7 +8,7 @@ import ProductServices from "../services/products.services.js";
 import { cartModel } from "../models/cart.models.js";
 import { UserModel } from "../models/user.model.js";
 import { productModel } from "../models/product.model.js";
-import { confirmOrder } from "../services/mail.services.js";
+import { confirmOrderMail } from "../services/mail.services.js";
 
 // Instancio las clases pasándole los modelos de Mongoose como parámetros
 const cartServices = new CartServices(cartModel);
@@ -109,4 +109,13 @@ export const deleteProductFromCart = async (req, res) => {
   }
 };
 
-
+export const confirmOrder = async (req, res) => {
+  const { cartId } = req.params;
+  try {
+    const cart = await cartServices.getCartById(cartId);
+    await confirmOrderMail(firstName, email, cart.products);
+    res.send({ msg: "Compra confirmada" });
+  } catch (error) {
+    console.log(error);
+  }
+};

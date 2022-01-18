@@ -1,34 +1,60 @@
 import { sendGmail } from "../utils/nodemailer.util.js";
 
-export const confirmOrder = async (req, res) => {
-    const { cartId } = req.params;
-    try {
-      const cart = await cartServices.getCartById(cartId);
-      const receptor = req.user.email;
-      const tema = "Compra confirmada";
-      const encabezado = `
-      <h3> Hola ${req.user.firstName}! </h3>
+export const confirmOrderMail = async (nombre, email, products) => {
+  const tema = "Compra confirmada";
+  const encabezado = `
+      <h3> Hola ${nombre}! </h3>
       <br>
       <h4> Detalle de tu compra:</h4>
     `;
-      const tableRows = (products) => {
-        return products
-          .map(
-            (prod) =>
-              `
+
+  const tableRows = (products) => {
+    return products
+      .map(
+        (prod) =>
+          `
         <tr>
           <td><p>${prod.title}:</p></td>
-          <td><p>$${prod.price}</p></td>
+          <td>
+            <p>
+              $${prod.price.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </p>
+          </td>
         </tr>
       `
-          )
-          .join("");
-      };
-      const contenido = encabezado + tableRows(cart.products);
-      sendGmail(receptor, tema, contenido)
-        .then((response) => console.log(response.envelope))
-        .catch((error) => console.log(error));
-    } catch (error) {
-      clog(error);
-    }
+      )
+      .join("");
   };
+
+  const priceTotal = (products) => {
+    // Calcular el total de la compra:
+    let total = 0;
+    products.forEach((prod) => (total += prod.price));
+    // Convertir a formato 1,000.00
+    total = total.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    return total;
+  };
+
+  const contenido =
+    encabezado +
+    ` 
+  <thead>
+    <tr>
+      <th>Artículo:</th>
+      <th>Precio:</th>
+    </tr>
+  </thead>
+  <tbody>` +
+    tableRows(productos) +
+    `</tbody>` +
+    `<p>Total: $${priceTotal(productos)}</p>`;
+
+  await sendGmail(email, tema, contenido);
+};
