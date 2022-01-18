@@ -31,10 +31,12 @@ export function getSignup(req, res) {
 }
 
 export async function postSignup(req, res) {
+  const id = req.user._id;
+  const firstName = req.user.firstName;
+  const email = req.user.email;
   try {
     if (req.file) {
       const realPath = req.file.path.replace("public/", "");
-      const id = req.user._id;
       const user = await UserModel.findById(id);
       user.imageUrl = realPath;
       await user.save();

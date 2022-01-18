@@ -109,6 +109,8 @@ export const deleteProductFromCart = async (req, res) => {
 
 export const confirmOrder = async (req, res) => {
   const { cartId } = req.params;
+  const firstName = req.user.firstName;
+  const email = req.user.email;
   try {
     const cart = await cartServices.getCartById(cartId);
     await confirmOrderMail(firstName, email, cart.products);

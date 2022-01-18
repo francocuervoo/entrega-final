@@ -66,9 +66,9 @@ export const confirmOrderMail = async (nombre, email, products) => {
     </tr>
   </thead>
   <tbody>` +
-    tableRows(productos) +
+    tableRows(products) +
     `</tbody>` +
-    `<p>Total: $${priceTotal(productos)}</p>`;
+    `<p>Total: $${priceTotal(products)}</p>`;
 
   await sendGmail(email, tema, contenido);
 };
