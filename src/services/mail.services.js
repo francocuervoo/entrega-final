@@ -1,5 +1,19 @@
 import { sendGmail } from "../utils/nodemailer.util.js";
 
+export const newUserMail = async (nombre, email) => {
+  const tema = "Nuevo usuario registrado";
+  const contenido = `
+    <h3> Hola ${nombre}! </h3>
+    <br>
+    <p> Ya estás registrado en la app de E-Commerce. </p>
+  `;
+  try {
+    await sendGmail(email, tema, contenido);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const confirmOrderMail = async (nombre, email, products) => {
   const tema = "Compra confirmada";
   const encabezado = `

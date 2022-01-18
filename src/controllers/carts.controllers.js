@@ -67,10 +67,8 @@ export const addProductToCart = async (req, res) => {
   const { cartId, productId } = req.params;
   try {
     const newProduct = await productServices.getProductById(productId);
-
     // Agrega el producto al carrito, luego retorna el producto agregado
     const addedProduct = await cartServices.addProduct(cartId, newProduct);
-
     if (addedProduct) {
       res.status(200).send(`Producto agregado al carrito: ${addedProduct}`);
     } else {

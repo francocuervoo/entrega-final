@@ -1,5 +1,6 @@
 import { sendGmail } from "../utils/nodemailer.util.js";
 import { UserModel } from "../models/user.model.js";
+import { newUserMail } from "../services/mail.services.js";
 
 export function getLogin(req, res) {
   if (req.isAuthenticated()) {
@@ -13,10 +14,10 @@ export function getLogin(req, res) {
 }
 
 export function postLogin(req, res) {
-  if(req.user){
-    res.redirect("/cart")
+  if (req.user) {
+    res.redirect("/cart");
   } else {
-    res.redirect("/login-error")
+    res.redirect("/login-error");
   }
 }
 
@@ -30,8 +31,8 @@ export function getSignup(req, res) {
 }
 
 export async function postSignup(req, res) {
-  try{
-    if(req.file){
+  try {
+    if (req.file) {
       const realPath = req.file.path.replace("public/", "");
       const id = req.user._id;
       const user = await UserModel.findById(id);
@@ -39,22 +40,11 @@ export async function postSignup(req, res) {
       await user.save();
       console.log(user);
     }
-      // Envia un mail al usuario notificandole el registro:
-      const receptor = req.user.email;
-      const tema = "Nuevo usuario registrado";
-      const contenido = `
-        <h3> Hola ${req.user.firstName}! </h3>
-        <br>
-        <p> Ya estás registrado en la app de E-Commerce. </p>
-      `;
-      sendGmail(receptor, tema, contenido)
-        .then((response) => console.log(response.envelope))
-        .catch((error) => console.log(error));
-      // Devolver una respuesta al front:
-      res.redirect("/cart");
-  } catch(error){
+    await newUserMail(firstName, email);
+    res.redirect("/cart");
+  } catch (error) {
     console.log(error);
-    res.redirect("/signup-error")
+    res.redirect("/signup-error");
   }
 }
 
