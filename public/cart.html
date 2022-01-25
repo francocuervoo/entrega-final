@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Carrito</title>
-  </head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 
-  <body>
-    <div class="container text-center my-3">
-      <div class="jumbotron" style="background-color: green; color: white">
-        <h1>CARRITO</h1>
-        <div id="usuario"></div>
-        <h2>Estos son tus productos</h2>
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nombre:</th>
-            <th>Precio:</th>
-            <th>Descripción:</th>
-            <th>Image:</th>
-          </tr>
-        </thead>
-        <tbody id="productsTable"></tbody>
-      </table>
-      <button id="confirmOrder" class="bta">COMPRAR</button>
+  <title>Carrito</title>
+</head>
+
+<body>
+  <div class="container text-center my-3">
+    <div class="jumbotron" style="background-color: green; color: white">
+      <h1>CARRITO</h1>
+      <div id="usuario"></div>
+      <h2>Estos son tus productos</h2>
     </div>
-  </body>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre:</th>
+          <th>Precio:</th>
+          <th>Descripción:</th>
+          <th>Image:</th>
+        </tr>
+      </thead>
+      <tbody id="productsTable"></tbody>
+    </table>
+    <button id="confirmOrder" class="bta">COMPRAR</button>
+  </div>
+</body>
+
 </html>
 
 <script>
   const $ = document.querySelector.bind(document);
   fetch('api/auth/login')
-  .then( res => res.json() ) 
-  .then( data => displayUser(data.firstName, data.imageUrl, data.carts[data.carts.length-1]) )
-  .then( html =>  $('#usuario').innerHTML = html )
-  .catch( error => {
-    console.log(error);
-    // Si no hay un usuario loggeado redirecciona a login:
-    //window.location.href = '/login.html';
-  })
-;
+    .then(res => res.json())
+    .then(function (data) {
+      if (data.carts.length > 0) {
+        displayUser(data.firstName, data.imageUrl, data.carts[data.carts.length - 1]);
+        return `<h5>Usuario ${data.firstName}</h5> <img style="width: 5rem;" src="${data.imageUrl}" /> `;
+      } else {
+        return `<h5>Usuario ${data.firstName}</h5> <img style="width: 5rem;" src="${data.imageUrl}" /> `;
+      }
+    })
+    .then(html => $('#usuario').innerHTML = html)
+    .catch(error => {
+      console.log(error);
+      // Si no hay un usuario loggeado redirecciona a login:
+      window.location.href = '/login.html';
+    })
+    ;
   const displayUser = (nombre, avatar, cartId) => {
     fetchProducts(cartId);
     buyButton(cartId)
-    return `<h5>Usuario ${nombre}</h5> <img style="width: 5rem;" src="${avatar}" /> `;
   };
   const tableRows = (products) => {
     return products.map(
@@ -67,29 +71,32 @@
       `
     );  //.join(" ");
   };
-  const fetchProducts = (cartId) => { fetch(`/api/carts/products/${cartId}`)
-    .then(res => res.json())
-    .then(products => tableRows(products))
-    .then(html => $("#productsTable").innerHTML = html)
-    .catch(error => console.log(error));
+  const fetchProducts = async (cartId) => {
+    try {
+      await fetch(`/api/carts/products/${cartId}`)
+        .then(res => res.json())
+        .then(products => tableRows(products))
+        .then(html => $("#productsTable").innerHTML = html)
+        .catch(error => console.log(error));
+    } catch (error) { console.log(error) }
   }
 
   const confirmOrder = async (cartId) => {
     const settings = {
       method: 'POST',
       headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       }
     }
     try {
       await fetch(`/api/carts/order/${cartId}`, settings);
       $('#confirmOrder').innerHTML = 'Gracias por su compra!';
-    } catch (error) { console.log (error) }
-};
+    } catch (error) { console.log(error) }
+  };
 
   const buyButton = cartId => {
-    $('#confirmOrder').addEventListener('click', function handler() { 
+    $('#confirmOrder').addEventListener('click', function handler() {
       confirmOrder(cartId);
       $('#confirmOrder').removeEventListener('click', handler);
     })

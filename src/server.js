@@ -6,7 +6,6 @@ import "./db.js";
 import session from "express-session";
 import passport from "./utils/passport.util.js";
 import apiRouter from "./routes/api.router.js";
-import userRouter from "./routes/auth.router.js";
 import viewsRouter from "./routes/views.router.js";
 import config from "../src/config/config.js"
 
@@ -24,7 +23,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/api", apiRouter).use("/api", userRouter);
+app.use("/api", apiRouter);
 app.use("/", viewsRouter);
 
 // Express Server
