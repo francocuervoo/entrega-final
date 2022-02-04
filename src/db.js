@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import config from "../src/config/config.js"
+import { logInfo } from "./utils/logger.util.js"
 
 mongoose.connect(config.mongoSessions, {
   useNewUrlParser: true,
@@ -7,10 +8,10 @@ mongoose.connect(config.mongoSessions, {
 });
 
 mongoose.connection.once("open", () => {
-  console.log, "Conectado a la base de datos";
+  logInfo("Conectado a la base de datos");
 });
 mongoose.connection.on("error", (err) => {
-  console.log(err);
+  console.log(err)
 });
 
 export default mongoose.connection;

@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { Strategy } from "passport-local";
 import passport from "passport";
 import { UserModel } from "../models/user.model.js";
+import { logInfo , logWarning , logError } from "../utils/logger.util.js"
 
 function isValidPassword(user, password) {
   return bcrypt.compareSync(password, user.password);
@@ -17,11 +18,11 @@ passport.use(
       UserModel.findOne({ email }, (err, user) => {
         if (err) return done(err);
         if (!user) {
-          console.log("Usuario no encontrado!");
+          logError("Usuario no encontrado")
           return done(null, false);
         }
         if (!isValidPassword(user, password)) {
-          console.log("Invalid password");
+          logWarning("Invalid Password")
           return done(null, false);
         }
         return done(null, user);
@@ -62,7 +63,7 @@ passport.use(
 
         UserModel.create(newUser, (err, user) => {
           if (err) return done(err);
-          console.log("Usuario creado");
+          logInfo("Usuario creado");
           return done(null, user);
         });
       });

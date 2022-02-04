@@ -1,14 +1,14 @@
-import { sendGmail } from "../utils/nodemailer.util.js";
 import { UserModel } from "../models/user.model.js";
 import { newUserMail } from "../services/mail.services.js";
+import { logInfo , logWarning, logError } from "../utils/logger.util.js"
 
 export function getLogin(req, res) {
   if (req.isAuthenticated()) {
     const user = req.user;
-    console.log("Usuario logueado!");
+    logInfo("Usuario logueado!");
     res.send(user);
   } else {
-    console.log("No esta registrado");
+    logError("No está registrado");
     res.send("No esta registrado");
   }
 }
@@ -22,7 +22,8 @@ export function postLogin(req, res) {
 }
 
 export function getFailLogin(req, res) {
-  console.log("Error en el login");
+  logError("Error en el login");
+  
   res.send("login-error");
 }
 
@@ -51,11 +52,11 @@ export async function postSignup(req, res) {
 }
 
 export function getFailSignup(req, res) {
-  console.log("Error en el registro");
+  logError("Error al hacer el registro")
   res.send("signup-error");
 }
 
 export function logout(req, res) {
-  console.log("Logout");
+  logWarning("Logout")
   res.send("Cerrar sesión");
 }
