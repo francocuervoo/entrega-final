@@ -1,4 +1,4 @@
-import { clog } from "../server.js";
+import { logConsol } from "../utils/logger.util.js";
 import Services from "./crud.services.js";
 
 // Métodos genéricos y los métidos propipios de los productos
@@ -12,7 +12,7 @@ class ProductServices extends Services {
       const products = await this.getAll();
       return products;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -21,7 +21,7 @@ class ProductServices extends Services {
       const product = await this.getById(id);
       return product;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -30,7 +30,7 @@ class ProductServices extends Services {
       const newProduct = this.createDocument(product);
       return newProduct;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -39,7 +39,7 @@ class ProductServices extends Services {
       await this.deleteById(id);
       return;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -59,7 +59,7 @@ class ProductServices extends Services {
 
       return updated;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 }

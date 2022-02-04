@@ -1,4 +1,5 @@
 import config from "../config/config.js"
+import { logConsol } from "../utils/logger.util.js";
 
 import { createTransport } from "nodemailer";
 
@@ -24,6 +25,6 @@ export const sendGmail = async (receptor, tema, contenido) => {
 
     return response;
   } catch (error) {
-    console.log(error);
+    logConsol(error);
   }
 };

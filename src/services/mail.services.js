@@ -1,4 +1,5 @@
 import { sendGmail } from "../utils/nodemailer.util.js";
+import { logConsol } from "../utils/logger.util.js";
 
 export const newUserMail = async (nombre, email) => {
   const tema = "Nuevo usuario registrado";
@@ -10,7 +11,7 @@ export const newUserMail = async (nombre, email) => {
   try {
     await sendGmail(email, tema, contenido);
   } catch (error) {
-    console.log(error);
+    logConsol(error);
   }
 };
 
@@ -32,9 +33,9 @@ export const confirmOrderMail = async (nombre, email, products) => {
           <td>
             <p>
               $${prod.price.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
             </p>
           </td>
         </tr>

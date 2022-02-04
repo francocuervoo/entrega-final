@@ -1,4 +1,5 @@
 import log4js from "log4js";
+import config from "../config/config.js"
 
 log4js.configure({
   appenders: {
@@ -16,12 +17,19 @@ log4js.configure({
   },
 });
 
+const loggerConsole = log4js.getLogger("trace");
 const loggerInfo = log4js.getLogger("info");
 const loggerWarn = log4js.getLogger("warn");
 const loggerError = log4js.getLogger("error");
+
+const dev = config.nodeEnv == 'development';
+
+const logConsol = msg => {
+  dev ? loggerConsole.trace(msg) : loggerConsole.info(msg);
+}
 
 const logInfo = (msg) => loggerInfo.info(msg);
 const logWarning = (msg) => loggerWarn.warn(msg);
 const logError = (msg) => loggerError.error(msg);
 
-export { logInfo, logWarning, logError };
+export { logConsol, logInfo, logWarning, logError };

@@ -1,29 +1,29 @@
 import { UserModel } from "../models/user.model.js";
 import { newUserMail } from "../services/mail.services.js";
-import { logInfo , logWarning, logError } from "../utils/logger.util.js"
+import { logConsol } from "../utils/logger.util.js"
 
 export function getLogin(req, res) {
   if (req.isAuthenticated()) {
     const user = req.user;
-    logInfo("Usuario logueado!");
+    logConsol("Usuario logueado");
     res.send(user);
   } else {
-    logError("No está registrado");
-    res.send("No esta registrado");
+    logConsol("No está registrado");
+    res.send("No está registrado");
   }
 }
 
 export function postLogin(req, res) {
   if (req.user) {
-    res.redirect("/cart");
+    res.send(req.user)
+    //res.redirect("/cart");
   } else {
     res.redirect("/login-error");
   }
 }
 
 export function getFailLogin(req, res) {
-  logError("Error en el login");
-  
+  logConsol("Error en el login");
   res.send("login-error");
 }
 
@@ -41,22 +41,22 @@ export async function postSignup(req, res) {
       const user = await UserModel.findById(id);
       user.imageUrl = realPath;
       await user.save();
-      console.log(user);
+      logConsol(user);
     }
     await newUserMail(firstName, email);
     res.redirect("/cart");
   } catch (error) {
-    console.log(error);
+    logConsol(error);
     res.redirect("/signup-error");
   }
 }
 
 export function getFailSignup(req, res) {
-  logError("Error al hacer el registro")
+  logConsol("Error al hacer el registro");
   res.send("signup-error");
 }
 
 export function logout(req, res) {
-  logWarning("Logout")
+  logConsol("Logout");
   res.send("Cerrar sesión");
 }

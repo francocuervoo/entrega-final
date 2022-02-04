@@ -1,4 +1,4 @@
-import { clog } from "../server.js";
+import { logConsol } from "../utils/logger.util.js";
 
 import ProductServices from "../services/products.services.js";
 
@@ -19,14 +19,14 @@ export const getProducts = async (req, res) => {
         res.send("El producto que intenta buscar no existe");
       }
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   } else {
     try {
       const products = await productServices.getProducts();
       res.status(200).send(products);
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 };
@@ -37,7 +37,7 @@ export const saveProduct = async (req, res) => {
     await productServices.createProduct(body);
     res.send("El producto fue agregado con éxito");
   } catch (error) {
-    clog(error);
+    logConsol(error);
   }
 };
 
@@ -47,7 +47,7 @@ export const deleteProduct = async (req, res) => {
     await productServices.deleteById(id);
     res.send(`El producto con el id: ${id} fue borrado`);
   } catch (error) {
-    clog(error);
+    logConsol(error);
   }
 };
 
@@ -59,6 +59,6 @@ export const updateProduct = async (req, res) => {
     const updateProduct = await productServices.updateProductById(id, body);
     res.send(`El producto ${oldProduct}, fue actualizado por ${updateProduct}`);
   } catch (error) {
-    clog(error);
+    logConsol(error);
   }
 };

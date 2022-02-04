@@ -1,4 +1,4 @@
-import { clog } from "../server.js";
+import { logConsol } from "../utils/logger.util.js";
 
 // Acá van a estar los métods genéricos
 
@@ -12,7 +12,7 @@ class Services {
       const items = await this.model.find();
       return items;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -21,7 +21,7 @@ class Services {
       const item = await this.model.findById(id);
       return item;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -30,7 +30,7 @@ class Services {
       const document = await this.model.create(item);
       return document;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -39,7 +39,7 @@ class Services {
       const deleted = await this.model.findByIdAndDelete(id);
       return deleted;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 }

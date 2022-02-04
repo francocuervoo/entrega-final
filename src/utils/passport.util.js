@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { Strategy } from "passport-local";
 import passport from "passport";
 import { UserModel } from "../models/user.model.js";
-import { logInfo , logWarning , logError } from "../utils/logger.util.js"
+import { logConsol } from "../utils/logger.util.js"
 
 function isValidPassword(user, password) {
   return bcrypt.compareSync(password, user.password);
@@ -18,13 +18,14 @@ passport.use(
       UserModel.findOne({ email }, (err, user) => {
         if (err) return done(err);
         if (!user) {
-          logError("Usuario no encontrado")
+          logConsol("Usuario no encontrado")
           return done(null, false);
         }
         if (!isValidPassword(user, password)) {
-          logWarning("Invalid Password")
+          logConsol("Invalid Password")
           return done(null, false);
         }
+        logConsol("Usuario ingresado")
         return done(null, user);
       });
     }
@@ -46,7 +47,7 @@ passport.use(
       UserModel.findOne({ email }, (err, user) => {
         if (err) return done(err);
         if (user) {
-          console.log("El usuario existe!");
+          logConsol("El usuario existe!");
           return done(null, false);
         }
         const newUser = {
@@ -59,11 +60,11 @@ passport.use(
           phone: req.body.phone,
         };
 
-        console.log(newUser);
+        logConsol(newUser);
 
         UserModel.create(newUser, (err, user) => {
           if (err) return done(err);
-          logInfo("Usuario creado");
+          logConsol("Usuario creado");
           return done(null, user);
         });
       });

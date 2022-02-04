@@ -1,4 +1,4 @@
-import { clog } from "../server.js";
+import { logConsol } from "../utils/logger.util.js";
 import Services from "./crud.services.js";
 
 // Métodos genéricos y los métodos propipios de los productos
@@ -13,7 +13,7 @@ class CartServices extends Services {
       return carts;
     } catch (error) {
       {
-        clog(error);
+        logConsol(error);
       }
     }
   }
@@ -24,7 +24,7 @@ class CartServices extends Services {
       return cart;
     } catch (error) {
       {
-        clog(error);
+        logConsol(error);
       }
     }
   }
@@ -37,7 +37,7 @@ class CartServices extends Services {
       return deleteCart;
     } catch (error) {
       {
-        clog(error);
+        logConsol(error);
       }
     }
   }
@@ -56,7 +56,7 @@ class CartServices extends Services {
       cart.save();
       return productId;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -69,7 +69,7 @@ class CartServices extends Services {
 
       return newProduct;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 
@@ -79,7 +79,7 @@ class CartServices extends Services {
       const productos = await cart.products;
       return productos;
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 }

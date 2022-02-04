@@ -3,7 +3,7 @@ import passport from "../utils/passport.util.js";
 import * as AuthController from "../controllers/auth.controller.js";
 import * as AuthMiddleware from "../middlewares/auth.middleware.js";
 import { upload } from "../utils/multer.util.js";
-import { logInfo } from "../utils/logger.util.js";
+import { logConsol } from "../utils/logger.util.js";
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.get("/failSignup", AuthController.getFailSignup);
 router.get("/logout", AuthController.logout);
 
 router.get("/protected", AuthMiddleware.checkAuthentication, (req, res) => {
-  logInfo("Esta autenticado")
+  logConsol("Esta autenticado")
   res.send("<h1>Autenticado!</h1>");
 });
 

@@ -8,17 +8,19 @@ const {
   SECRET,
   MAIL_USER,
   MAIL_PASS,
+  NODE_ENV,
 } = process.env;
 
 
 const config = {
 
-  mongoSessions: MONGO_URI,
+  mongoDB: MONGO_URI,
   port: PORT,
   expire: EXPIRE,
   secret: SECRET,
   mailUser: MAIL_USER,
   mailPass: MAIL_PASS,
+  nodeEnv: NODE_ENV,
 }
 
 export default config

@@ -1,4 +1,4 @@
-import { clog } from "../server.js";
+import { logConsol } from "../utils/logger.util.js"
 
 // Importo las subclases
 import CartServices from "../services/carts.services.js";
@@ -26,7 +26,7 @@ export const newCart = async (req, res) => {
     }
     res.status(200).send(cart._id);
   } catch (error) {
-    clog(error);
+    logConsol(error);
   }
 };
 
@@ -44,7 +44,7 @@ export const getCarts = async (req, res) => {
       const carts = await cartServices.getCarts();
       res.status(200).send({ carts });
     } catch (error) {
-      clog(error);
+      logConsol(error);
     }
   }
 };
@@ -59,7 +59,7 @@ export const deleteCartById = async (req, res) => {
       res.status("El carrito que intenta borrar no existe");
     }
   } catch (error) {
-    clog(error);
+    logConsol(error);
   }
 };
 
@@ -75,7 +75,7 @@ export const addProductToCart = async (req, res) => {
       res.send("Carrito inexistente");
     }
   } catch (error) {
-    clog(error);
+    logConsol(error);
   }
 };
 
@@ -89,7 +89,7 @@ export const getProductsInCart = async (req, res) => {
       res.send("No se encontró ningún carrito con ese ID");
     }
   } catch (error) {
-    clog(error);
+    logConsol(error);
   }
 };
 
@@ -103,7 +103,7 @@ export const deleteProductFromCart = async (req, res) => {
       res.send("El carrito y/o el producto no existen");
     }
   } catch (error) {
-    clog(error);
+    logConsol(error);
   }
 };
 
@@ -116,6 +116,6 @@ export const confirmOrder = async (req, res) => {
     await confirmOrderMail(firstName, email, cart.products);
     res.send({ msg: "Compra confirmada" });
   } catch (error) {
-    console.log(error);
+    logConsol(error);
   }
 };

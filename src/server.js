@@ -1,6 +1,3 @@
-// Método del after para no repetir console.log
-export const clog = console.log.bind(console);
-
 import app from "./express.app.js";
 import "./db.js";
 import session from "express-session";
@@ -8,6 +5,7 @@ import passport from "./utils/passport.util.js";
 import apiRouter from "./routes/api.router.js";
 import viewsRouter from "./routes/views.router.js";
 import config from "../src/config/config.js"
+import { logConsol } from "./utils/logger.util.js"
 
 app.use(
   session({
@@ -29,6 +27,8 @@ app.use("/", viewsRouter);
 // Express Server
 const PORT = config.port || 3000;
 const server = app.listen(PORT, () =>
-  console.log(`Server started on port http://localhost:${PORT}`)
+  logConsol(`Server started on port http://localhost:${PORT}`)
 );
-server.on("error", (err) => console.log(err));
+server.on("error", (err) => logConsol(err));
+
+// export const clog = console.log.bind(console); Método del after para no repetir console.log
